@@ -37,6 +37,7 @@
               "src/assets/js/app.min.js",
               "src/assets/js/dashboard.js",
               "src/assets/js/sidebarmenu.js"
+              
             ]
           },
           "configurations": {

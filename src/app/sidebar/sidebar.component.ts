@@ -1,22 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../Services/Auth/auth.service';
-import { SidebarComponent } from '../sidebar/sidebar.component';
-import { HeaderComponent } from '../header/header.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-sidebar',
   standalone: true,
   imports: [
+    RouterModule,
     CommonModule,
-    SidebarComponent,
-    HeaderComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.css'
 })
-export class HomeComponent {
+export class SidebarComponent {
   currentUser: any;
 
   constructor(private authService: AuthService) {

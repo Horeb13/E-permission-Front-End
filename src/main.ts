@@ -7,6 +7,8 @@ import { AuthInterceptor } from './app/Services/Auth/auth.interceptor';
 import { importProvidersFrom } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './app/Services/Auth/auth.guard';
+//import 'bootstrap';
+
 
 export function tokenGetter() {
   return localStorage.getItem('token');
