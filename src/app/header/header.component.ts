@@ -14,6 +14,7 @@ export class HeaderComponent {
 
   constructor(private authService: AuthService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentuser') || '{}');
+    console.log(this.currentUser);
   }
 
   logout() {

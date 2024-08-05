@@ -1,8 +1,10 @@
 import { BaseEntity } from './BaseEntity';
 
 export class TypeDePermission extends BaseEntity {
-  Id_Type_de_Permission: number = 0;
-  Nom_de_la_permission: string = '';
-  Description: string = '';
+  modifiePar: string | null = null;
+  id: number = 0;
+  nom: string = '';
+  description: string = '';
   duree: number = 0;
 }
+

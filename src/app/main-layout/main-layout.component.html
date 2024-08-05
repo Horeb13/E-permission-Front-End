@@ -1,19 +1,14 @@
-<!-- main-layout.component.html -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-
-    <!-- Sidebar Start -->
-    <app-sidebar></app-sidebar>
-    <!--  Sidebar End -->
-
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-
-      <!--  Header Start -->
-      <app-header></app-header>
-      <!--  Header End -->
-
-      <router-outlet></router-outlet>
-
-    </div>
+<div class="layout-wrapper" [ngClass]="containerClass">
+  <app-topbar></app-topbar>
+  <div class="layout-sidebar">
+      <app-sidebar></app-sidebar>
+  </div>
+  <div class="layout-main-container">
+      <div class="layout-main">
+          <router-outlet></router-outlet>
+      </div>
+      <app-footer></app-footer>
+  </div>
+  <app-config></app-config>
+  <div class="layout-mask"></div>
 </div>

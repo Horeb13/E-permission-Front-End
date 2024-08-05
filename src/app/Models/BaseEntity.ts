@@ -1,8 +1,8 @@
 export class BaseEntity {
 
     modifierPar: string = '';
-    date_creation: Date = new Date();
-    date_modification: Date = new Date();
+    dateCreation: Date = new Date();
+    dateModification: Date = new Date();
     canDelete: boolean = false;
     selected: boolean = false;
     trackStatut: string = '';

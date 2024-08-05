@@ -1,10 +1,208 @@
+
 <div class="body-wrapper-inner">
     <div class="container-fluid">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title fw-semibold mb-4">Permission</h5>
-          <p class="mb-0">This is a sample page </p>
+
+        <!-- <form (ngSubmit)="createDemande()">
+
+
+          <div class="modal fade" id="CreateDemandModal" aria-hidden="true" aria-labelledby="CreateDemandModalLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="CreateDemandModalLabel">Créer une nouvelle demande</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  
+
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="floatingSelect" aria-label="Floating label select example" [(ngModel)]="newDemande.typeDePermission" name="typeDePermission" required>
+                        <option *ngFor="let type of typeDePermissions" [value]="type.nom">{{ type.nom }}</option>
+                      </select>
+                      <label for="floatingSelect">Type de permission</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                      <input [(ngModel)]="newDemande.dateDebut" name="dateDebut" type="date" class="form-control" required>
+                      <label for="floatingTextareaDisabled">Date de début</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input [(ngModel)]="newDemande.dateFin" name="dateFin" type="date" class="form-control" required>
+                      <label for="floatingTextareaDisabled">Date de fin</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <textarea [(ngModel)]="newDemande.description" name="description" class="form-control" required></textarea>
+                      <label for="floatingTextareaDisabled">Description</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-bs-target="#CreateDemandModal2" data-bs-toggle="modal">Valider</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="CreateDemandModal2" aria-hidden="true" aria-labelledby="CreateDemandModalLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="CreateDemandModalLabel2">Validation</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Êtes vous sûr ?
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-bs-target="#CreateDemandModal" data-bs-toggle="modal">Retour</button>
+                  <button class="btn btn-primary" type="submit" aria-label="Close" data-bs-dismiss="modal" >Ajouter la demande</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" data-bs-target="#CreateDemandModal" data-bs-toggle="modal">Nouvelle Demande</button>
+          
+          
+          
+        </form> -->
+
+        <div class="card">
+          <p-toast></p-toast>
+          <p-toolbar styleClass="mb-4 gap-2">
+              <ng-template pTemplate="left">
+                  <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                  <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDemandes()" [disabled]="!selectedDemandes || !selectedDemandes.length"></button>
+              </ng-template>
+      
+              <ng-template pTemplate="right">
+                  <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                  <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+              </ng-template>
+          </p-toolbar>
+      
+          <p-table
+              #dt
+              [value]="demandes"
+              [rows]="10"
+              [paginator]="true"
+              [globalFilterFields]="['id', 'typeDePermission.nom', 'description', 'dateDebut', 'dateFin', 'statutDemande.libelle']"
+              [tableStyle]="{ 'min-width': '75rem' }"
+              [(selection)]="selectedDemandes"
+              [rowHover]="true"
+              dataKey="id"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true"
+          >
+              <ng-template pTemplate="caption">
+                  <div class="flex align-items-center justify-content-between">
+                      <h5 class="m-0">Manage Demandes</h5>
+                      <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="filterGlobal($event, 'contains')" placeholder="Search..." />
+                      </span>
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th style="width: 4rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                      <th pSortableColumn="id" style="min-width:10rem">ID <p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="typeDePermission.nom" style="min-width:15rem">Type <p-sortIcon field="typeDePermission.nom"></p-sortIcon></th>
+                      <th pSortableColumn="description" style="min-width:15rem">Description <p-sortIcon field="description"></p-sortIcon></th>
+                      <th pSortableColumn="dateDebut" style="min-width:10rem">Date Debut <p-sortIcon field="dateDebut"></p-sortIcon></th>
+                      <th pSortableColumn="dateFin" style="min-width:10rem">Date Fin <p-sortIcon field="dateFin"></p-sortIcon></th>
+                      <th pSortableColumn="statutDemande.libelle" style="min-width:10rem">Status <p-sortIcon field="statutDemande.libelle"></p-sortIcon></th>
+                      <th></th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-demande>
+                  <tr>
+                      <td>
+                          <p-tableCheckbox [value]="demande"></p-tableCheckbox>
+                      </td>
+                      <td>{{ demande.id }}</td>
+                      <td>{{ demande.typeDePermission.nom }}</td>
+                      <td>{{ demande.description }}</td>
+                      <td>{{ demande.dateDebut }}</td>
+                      <td>{{ demande.dateFin }}</td>
+                      <td>{{ demande.statutDemande.libelle }}</td>
+                      <td>
+                          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editDemande(demande)"></button>
+                          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteDemande(demande)"></button>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                  <div class="flex align-items-center justify-content-between">In total there are {{ demandes ? demandes.length : 0 }} demandes.</div>
+              </ng-template>
+          </p-table>
+      </div>
+      
+      <p-dialog [(visible)]="demandeDialog" [style]="{ width: '550px', height: '700px' }" header="Demande Details" [modal]="true" styleClass="p-fluid">
+          <ng-template pTemplate="content">
+              <div class="field">
+                  <label for="type">Type</label>
+                  <p-dropdown 
+                      [options]="typeDePermissions" 
+                      [(ngModel)]="demande.typeDePermission.nom" 
+                      optionLabel="nom"
+                      inputId="type"
+                      placeholder="Selectionnez un type"  />
+                  <!-- <input type="text" pInputText id="type" [(ngModel)]="demande.typeDePermission.nom" required autofocus /> -->
+                  <small class="p-error" *ngIf="submitted && !demande.typeDePermission.nom">Type is required.</small>
+              </div>
+              <div class="field">
+                  <label for="description">Description</label>
+                  <textarea id="description" pInputTextarea [(ngModel)]="demande.description" required rows="3" cols="20"></textarea>
+              </div>
+              <div class="field">
+                  <label for="dateDebut">Date Debut</label>
+                  <p-calendar 
+                   [(ngModel)]="demande.dateDebut"
+                   [showOnFocus]="false"
+                   [showIcon]="true"
+                   [showButtonBar]="true"
+                   inputId="dateDebut"
+                    />
+                  <!-- <input type="date" pInputText id="dateDebut" [(ngModel)]="demande.dateDebut" required /> -->
+              </div>
+              <div class="field">
+                  <label for="dateFin">Date Fin</label>
+                  <p-calendar 
+                   [(ngModel)]="demande.dateFin"
+                   [showOnFocus]="false"
+                   [showIcon]="true"
+                   [showButtonBar]="true"
+                   inputId="dateFin"
+                   
+                    />
+                  <!-- <input type="date" pInputText id="dateFin" [(ngModel)]="demande.dateFin" required /> -->
+              </div>
+              
+          </ng-template>
+      
+          <ng-template pTemplate="footer">
+              <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+              <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveDemande()"></button>
+          </ng-template>
+      </p-dialog>
+      
+      <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+      
+
+
+
+
         </div>
       </div>
     </div>
   </div>
+
+  
+
+ 
+ 
+  
+  

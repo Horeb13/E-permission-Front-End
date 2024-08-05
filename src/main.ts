@@ -7,6 +7,9 @@ import { AuthInterceptor } from './app/Services/Auth/auth.interceptor';
 import { importProvidersFrom } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './app/Services/Auth/auth.guard';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+
+
 //import 'bootstrap';
 
 
@@ -16,6 +19,8 @@ export function tokenGetter() {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    { provide: BrowserAnimationsModule, useValue: BrowserAnimationsModule },
+    provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(routes),
     importProvidersFrom(JwtModule.forRoot({

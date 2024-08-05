@@ -8,7 +8,8 @@ import { Login } from '../../Models/Dto/Login';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Change this to your actual API endpoint
+  private apiUrl = 'http://localhost:8080/api/auth'; 
+  private currentUser: any;// Change this to your actual API endpoint
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
@@ -33,5 +34,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+  getCurrentuser(): any {
+    this.currentUser = JSON.parse(localStorage.getItem('currentuser') || '{}');
+    console.log(this.currentUser);
+    return this.currentUser;
   }
 }

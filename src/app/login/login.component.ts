@@ -4,17 +4,47 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AuthService } from '../Services/Auth/auth.service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Login } from '../Models/Dto/Login';
+import { LayoutService } from '../Services/app.layout.service';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    RouterLink, 
+    RouterModule,
+    ButtonModule,
+    CheckboxModule,
+    InputTextModule,
+    FormsModule,
+    PasswordModule
+  ],
   templateUrl: './login.component.html',
+  styles: [`
+    :host ::ng-deep .pi-eye,
+    :host ::ng-deep .pi-eye-slash {
+        transform:scale(1.6);
+        margin-right: 1rem;
+        color: var(--primary-color) !important;
+    }
+`]
 })
 export class LoginComponent {
+
+  valCheck: string[] = ['remember'];
+
+    password!: string;
+
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, public layoutService: LayoutService) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required, ],
       password: ['', Validators.required,]
