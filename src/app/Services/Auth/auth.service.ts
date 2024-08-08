@@ -37,7 +37,7 @@ export class AuthService {
   }
   getCurrentuser(): any {
     this.currentUser = JSON.parse(localStorage.getItem('currentuser') || '{}');
-    console.log(this.currentUser);
+    //console.log(this.currentUser);
     return this.currentUser;
   }
 }

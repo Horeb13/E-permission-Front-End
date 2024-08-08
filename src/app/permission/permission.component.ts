@@ -19,6 +19,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
+import { TagModule } from 'primeng/tag';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { CalendarModule } from 'primeng/calendar';
   standalone: true,
   imports: [
     TableModule, 
+    TagModule,
     DropdownModule, 
     ConfirmDialogModule, 
     InputTextModule, 
@@ -44,7 +46,7 @@ import { CalendarModule } from 'primeng/calendar';
     
   ],
   templateUrl: './permission.component.html',
-  styleUrls: ['./permission.component.css'],
+  styleUrls: ['./permission.component.scss'],
   providers: [MessageService, ConfirmationService]
 })
 export class PermissionComponent implements OnInit {
@@ -59,16 +61,13 @@ export class PermissionComponent implements OnInit {
   selectedDemandes: DemandeDePermission[] = [];
   demandeDialog: boolean = false;
   submitted: boolean = false;
-  statuses: any[] = [
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Rejected', value: 'Rejected' },
-  ];
+ 
 
   constructor(
     private demandeService: DemandeDePermissionService,
     private typeDePermissionService: TypeDePermissionService,
     private authService: AuthService,
+    private messageService: MessageService
   
   ) {}
 
@@ -98,11 +97,20 @@ export class PermissionComponent implements OnInit {
 
   createDemande(): void {
     this.newDemande.userEmail = this.currentUserEmail;
+    this.newDemande.typeDePermission = this.demande.typeDePermission.nom;
+    this.newDemande.description = this.demande.description;
+    this.newDemande.dateDebut = this.demande.dateDebut;
+    this.newDemande.dateFin = this.demande.dateFin;
     this.demandeService.createDemande(this.newDemande).subscribe((demande) => {
-      //this.demandes.push(demande);
+  
       this.newDemande = new DemandeDePermissionDTO(); // Reset form
       this.demandeDialog = false;
+      this.getDemandes();
+      
     });
+    
+    
+    
   }
 
   updateDemande(): void {
@@ -112,13 +120,16 @@ export class PermissionComponent implements OnInit {
         this.demandes[index] = demande;
       }
       this.demandeDialog = false;
+      this.getDemandes();
     });
+
   }
 
   deleteDemande(demande: DemandeDePermission): void {
     this.demandeService.deleteDemande(demande.id).subscribe(() => {
       this.demandes = this.demandes.filter((d) => d.id !== demande.id);
     });
+    this.messageService.add({ severity:'danger', summary: 'Demande supprimée avec succès', life: 3000 });
   }
 
   deleteSelectedDemandes(): void {
@@ -129,7 +140,10 @@ export class PermissionComponent implements OnInit {
   }
 
   editDemande(demande: DemandeDePermission): void {
-    this.demande = { ...demande };
+    this.demande = { ...demande,
+    dateDebut: demande.dateDebut ? new Date(demande.dateDebut) : new Date(),
+    dateFin: demande.dateFin ? new Date(demande.dateFin) : new Date()
+     };
     this.demandeDialog = true;
   }
 
@@ -149,13 +163,33 @@ export class PermissionComponent implements OnInit {
 
     if (this.demande.id) {
       this.updateDemande();
+      this.messageService.add({ severity:'info', summary: 'Demande modifiée avec succès', life: 3000 });
     } else {
       this.createDemande();
+      this.messageService.add({ severity:'success', summary: 'Demande créée avec succès', life: 3000 });
     }
   }
+
+  getSeverity(status: string) : string {
+    switch (status) {
+        case "AT":
+            return "info";
+        case "CO":
+            return "info";
+        case "RP":
+            return "warn";
+        case "VA":
+            return "success";
+        case "RJ":
+            return "error";
+        default: return "";
+    }
+}
 
   filterGlobal(event: Event, stringVal: string) {
     const target = event.target as HTMLInputElement;
     this.dt.filterGlobal(target.value, stringVal);
   }
+
+  
 }

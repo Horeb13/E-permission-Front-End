@@ -1,9 +1,7 @@
 
-<div class="body-wrapper-inner">
-    <div class="container-fluid">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title fw-semibold mb-4">Permission</h5>
+
+ 
+
 
         <!-- <form (ngSubmit)="createDemande()">
 
@@ -71,13 +69,13 @@
           <p-toast></p-toast>
           <p-toolbar styleClass="mb-4 gap-2">
               <ng-template pTemplate="left">
-                  <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                  <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDemandes()" [disabled]="!selectedDemandes || !selectedDemandes.length"></button>
+                  <button pButton pRipple label="Ajouter" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                  <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDemandes()" [disabled]="!selectedDemandes || !selectedDemandes.length"></button>
               </ng-template>
       
               <ng-template pTemplate="right">
-                  <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
-                  <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+                  <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+                  <button pButton pRipple label="Exporter" icon="pi pi-upload" class="p-button-help"></button>
               </ng-template>
           </p-toolbar>
       
@@ -87,16 +85,16 @@
               [rows]="10"
               [paginator]="true"
               [globalFilterFields]="['id', 'typeDePermission.nom', 'description', 'dateDebut', 'dateFin', 'statutDemande.libelle']"
-              [tableStyle]="{ 'min-width': '75rem' }"
+              [tableStyle]="{ 'min-width': '50rem' }"
               [(selection)]="selectedDemandes"
               [rowHover]="true"
               dataKey="id"
-              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              currentPageReportTemplate="Affichage de {first} à {last} de {totalRecords} demandes"
               [showCurrentPageReport]="true"
           >
               <ng-template pTemplate="caption">
                   <div class="flex align-items-center justify-content-between">
-                      <h5 class="m-0">Manage Demandes</h5>
+                      <h5 class="m-0">Gestion des Demandes de Permission</h5>
                       <span class="p-input-icon-left">
                           <i class="pi pi-search"></i>
                           <input pInputText type="text" (input)="filterGlobal($event, 'contains')" placeholder="Search..." />
@@ -105,7 +103,7 @@
               </ng-template>
               <ng-template pTemplate="header">
                   <tr>
-                      <th style="width: 4rem">
+                      <th style="width: 2rem">
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                       </th>
                       <th pSortableColumn="id" style="min-width:10rem">ID <p-sortIcon field="id"></p-sortIcon></th>
@@ -127,7 +125,8 @@
                       <td>{{ demande.description }}</td>
                       <td>{{ demande.dateDebut }}</td>
                       <td>{{ demande.dateFin }}</td>
-                      <td>{{ demande.statutDemande.libelle }}</td>
+                      <td><p-tag [value]="demande.statutDemande.libelle"  [severity]="getSeverity(demande.statutDemande.code)"></p-tag></td>
+                      
                       <td>
                           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editDemande(demande)"></button>
                           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteDemande(demande)"></button>
@@ -135,10 +134,11 @@
                   </tr>
               </ng-template>
               <ng-template pTemplate="summary">
-                  <div class="flex align-items-center justify-content-between">In total there are {{ demandes ? demandes.length : 0 }} demandes.</div>
+                  <div class="flex align-items-center justify-content-between">{{ demandes ? demandes.length : 0 }} demandes au total.</div>
               </ng-template>
           </p-table>
       </div>
+      
       
       <p-dialog [(visible)]="demandeDialog" [style]="{ width: '550px', height: '700px' }" header="Demande Details" [modal]="true" styleClass="p-fluid">
           <ng-template pTemplate="content">
@@ -146,16 +146,21 @@
                   <label for="type">Type</label>
                   <p-dropdown 
                       [options]="typeDePermissions" 
-                      [(ngModel)]="demande.typeDePermission.nom" 
+                      [(ngModel)]="demande.typeDePermission" 
                       optionLabel="nom"
                       inputId="type"
+                      
                       placeholder="Selectionnez un type"  />
                   <!-- <input type="text" pInputText id="type" [(ngModel)]="demande.typeDePermission.nom" required autofocus /> -->
-                  <small class="p-error" *ngIf="submitted && !demande.typeDePermission.nom">Type is required.</small>
+                  <small class="p-error" *ngIf="submitted && !demande.typeDePermission">Type is required.</small>
               </div>
-              <div class="field">
-                  <label for="description">Description</label>
-                  <textarea id="description" pInputTextarea [(ngModel)]="demande.description" required rows="3" cols="20"></textarea>
+              <div class="field mt-4">
+                  <!-- <label for="description">Description</label> -->
+                    <label for="description">Description</label>
+                    <textarea inputId="description" rows="5" cols="66" [(ngModel)]="demande.description" pInputTextarea></textarea>
+                    
+                 
+                  <!-- <textarea id="description" pInputTextarea [(ngModel)]="demande.description" required rows="3" cols="20"></textarea> -->
               </div>
               <div class="field">
                   <label for="dateDebut">Date Debut</label>
@@ -163,8 +168,9 @@
                    [(ngModel)]="demande.dateDebut"
                    [showOnFocus]="false"
                    [showIcon]="true"
-                   [showButtonBar]="true"
+                  
                    inputId="dateDebut"
+                   
                     />
                   <!-- <input type="date" pInputText id="dateDebut" [(ngModel)]="demande.dateDebut" required /> -->
               </div>
@@ -174,7 +180,7 @@
                    [(ngModel)]="demande.dateFin"
                    [showOnFocus]="false"
                    [showIcon]="true"
-                   [showButtonBar]="true"
+                   
                    inputId="dateFin"
                    
                     />
@@ -190,15 +196,9 @@
       </p-dialog>
       
       <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-      
 
 
 
-
-        </div>
-      </div>
-    </div>
-  </div>
 
   
 
