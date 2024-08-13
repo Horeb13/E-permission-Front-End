@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Login } from '../../Models/Dto/Login';
+import { Register } from '../../Models/Dto/Register';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/signIn`, login);
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/signUp`, user);
+  register(register: Register): Observable<any> {
+    return this.http.post(`${this.apiUrl}/signUp`, register);
   }
 
   logout(): void {

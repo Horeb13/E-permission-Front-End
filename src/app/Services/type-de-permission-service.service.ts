@@ -15,6 +15,7 @@ export class TypeDePermissionService {
   constructor(private http: HttpClient) { }
 
   getTypeDePermissions(): Observable<TypeDePermission[]> {
+    
     return this.http.get<TypeDePermission[]>(this.apiUrl);
   }
 

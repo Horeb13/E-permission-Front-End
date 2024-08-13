@@ -15,6 +15,7 @@ export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    
     { 
         path: '', 
         component: MainLayoutComponent, 
@@ -23,7 +24,8 @@ export const routes: Routes = [
             { path: 'home', component: HomeComponent },
             { path: 'permission', component: PermissionComponent},
             { path: 'profile', component: ProfileComponent },
-            { path: 'notifications', component: NotificationsComponent}
+            { path: 'notifications', component: NotificationsComponent},
+            
             
         ] 
     },

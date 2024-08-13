@@ -4,6 +4,6 @@ export class Register {
   prenom: string = '';
   email: string = '';
   password: string = '';
-  role: string = '';
+  role : string []= [];
   departement: string = '';
 }

@@ -13,8 +13,8 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
-    <div #topbarmenu class="layout-topbar-menu" [class.layout-topbar-menu-mobile-active]="layoutService.state.profileSidebarVisible">
-        <button class="p-link layout-topbar-button">
+    <div #topbarmenu class="layout-topbar-menu"  [class.layout-topbar-menu-mobile-active]="layoutService.state.profileSidebarVisible">
+        <button class="p-link layout-topbar-button" (click)="authService.logout()">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>

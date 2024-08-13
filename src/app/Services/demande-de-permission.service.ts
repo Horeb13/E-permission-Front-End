@@ -21,9 +21,9 @@ export class DemandeDePermissionService {
     return this.http.get<DemandeDePermission[]>(this.apiUrl);
   }
 
-  getDemandeById(id: number): Observable<DemandeDePermissionDTO> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.get<DemandeDePermissionDTO>(url);
+  getDemandeByEmail(email: string): Observable<DemandeDePermission[]> {
+    const url = `${this.apiUrl}/${email}`;
+    return this.http.get<DemandeDePermission[]>(url);
   }
 
   createDemande(demande: DemandeDePermissionDTO): Observable<DemandeDePermissionDTO> {
