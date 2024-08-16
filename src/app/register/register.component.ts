@@ -100,9 +100,9 @@ export class RegisterComponent implements OnInit {
     singIn.prenom = this.registerForm.value.prenom;
     singIn.email = this.registerForm.value.email;
     singIn.password = this.registerForm.value.password;
-    singIn.role = this.registerForm.value.roles;
-    console.log(singIn.role);
     singIn.departement = this.registerForm.value.departement.code;
+    singIn.roles = this.registerForm.value.roles.map((role: any) => role.id);
+    console.log(JSON.stringify(singIn));
     if (this.registerForm.valid) {
       this.authService.register(singIn).subscribe({
         next: () => {

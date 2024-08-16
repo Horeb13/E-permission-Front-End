@@ -1,0 +1,26 @@
+
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <img src="assets/layout/images/logo.png" alt="E-Permission logo" class=" w-6rem flex-shrink-0" >
+        <h2 class="mb-5">E-Permission</h2>              
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    
+                    <span class="text-600 font-medium">Choississez un Profil</span>
+                </div>
+              
+                <div class="card flex justify-content-center" *ngFor="let role of roles">
+                    <button
+                    class="p-button-success"
+                    pButton 
+                    pRipple
+                     (click)="selectRole(role)">{{ role  }}</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+
+

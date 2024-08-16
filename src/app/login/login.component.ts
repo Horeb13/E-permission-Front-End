@@ -60,7 +60,15 @@ export class LoginComponent {
         if (response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('currentuser', JSON.stringify(response.userDetails));
-          this.router.navigate(['/home']);
+          const roles = this.authService.getUserRoles();
+          if (roles.length > 1) {
+            this.router.navigate(['/role-selection']); // Redirige vers la page de sélection de rôle
+          } else {
+            // Sinon, connectez l'utilisateur directement
+            this.authService.setActiveRole(roles[0]);
+            this.router.navigate(['/home']);
+          }
+          
         } else {
           console.error('No token in response:', response);
         }
